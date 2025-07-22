@@ -1,10 +1,17 @@
 export type PlaceType = "restaurant" | "hotel" | "park";
 
+export type PlaceFilterType = "all" | PlaceType;
+
 export enum PlaceEnum {
-  RESTAURANT = "Restaurant",
-  HOTEL = "Hotel",
-  PARK = "Park",
+  RESTAURANT = "restaurant",
+  HOTEL = "hotel",
+  PARK = "park",
 }
+
+export type latLng = {
+  lat: number;
+  lng: number;
+};
 
 export type Place = {
   id: string;

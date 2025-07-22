@@ -11,7 +11,17 @@ export const placesSlice = createSlice({
   initialState,
   reducers: {
     addPlace(state, action: PayloadAction<Place>) {
-      state.places.push(action.payload);
+      const { name, address } = action.payload;
+      const exists: boolean = state.places.some(
+        (place) =>
+          place.name.toLowerCase() === name.toLowerCase().trim() &&
+          place.address.toLowerCase() === address.toLowerCase().trim()
+      );
+      if (!exists) {
+        state.places.push(action.payload);
+      } else {
+        throw new Error("Place with the same name and address already exists.");
+      }
     },
     setSelectedPlace(state, action: PayloadAction<Place>) {
       state.selectedPlace = action.payload;

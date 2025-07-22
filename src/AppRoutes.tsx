@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Creation from "./components/Creation";
-import Places from "./components/Places";
+import Creation from "./pages/Creation";
+import Places from "./pages/Places";
 import Layout from "./components/Layout";
-import WeatherData from "./components/WeatherData";
+import WeatherData from "./pages/WeatherData";
 
 const AppRoutes = (): JSX.Element => {
   const routes = createBrowserRouter([

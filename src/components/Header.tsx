@@ -6,7 +6,7 @@ interface HeaderProps {
 
 const Header = ({ title }: HeaderProps) => {
   return (
-    <header className="w-full px-8 py-4 bg-blue-600 text-white text-2xl font-bold shadow-md flex items-center justify-center gap-4 transition">
+    <header className="w-full px-8 py-4 bg-blue-600 text-white text-2xl font-bold shadow-md flex items-center justify-center gap-4 transition cursor-pointer">
       {title}
 
       <nav className="flex gap-4 text-base font-normal">
