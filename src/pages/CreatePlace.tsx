@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { PlaceEnum } from "../types/places.types";
+import { Place, PlaceEnum } from "../types/places.types";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addPlace } from "../features/placesSlice";
 import { PlaceFormData, placeSchema } from "../schemas/create-place.schema";
@@ -12,14 +12,17 @@ import { RootState } from "../app/store";
 import { PlaceUtils } from "../utils/placeUtils";
 import ConfirmResetModal from "../components/ConfirmResetModal";
 import { Helmet } from "react-helmet-async";
+import Spinner from "../components/Spinner";
 
-const Creation = () => {
+const CreatePlace = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showResetModal, setShowResetModal] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const places = useAppSelector((state: RootState) => state.places.places);
+  const navigate: NavigateFunction = useNavigate();
+  const places: Place[] = useAppSelector(
+    (state: RootState) => state.places.places
+  );
 
   const {
     register,
@@ -60,17 +63,17 @@ const Creation = () => {
     }
   };
 
-  const handleResetForm = () => {
+  const handleResetForm = (): void => {
     setShowResetModal(true);
   };
 
-  const confirmReset = () => {
+  const confirmReset = (): void => {
     reset();
     toast.info("Form reset successfully!");
     setShowResetModal(false);
   };
 
-  const cancelReset = () => {
+  const cancelReset = (): void => {
     setShowResetModal(false);
   };
 
@@ -97,7 +100,7 @@ const Creation = () => {
               placeholder="Place Name"
             />
             {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name.message}</p>
+              <p className="text-red-500 text-sm">*{errors.name.message}</p>
             )}
           </div>
 
@@ -113,7 +116,7 @@ const Creation = () => {
               placeholder="e.g. 32.0853"
             />
             {errors.lat && (
-              <p className="text-red-500 text-sm">{errors.lat.message}</p>
+              <p className="text-red-500 text-sm">*{errors.lat.message}</p>
             )}
           </div>
 
@@ -129,7 +132,7 @@ const Creation = () => {
               placeholder="e.g. 34.7818"
             />
             {errors.lng && (
-              <p className="text-red-500 text-sm">{errors.lng.message}</p>
+              <p className="text-red-500 text-sm">*{errors.lng.message}</p>
             )}
           </div>
 
@@ -144,7 +147,7 @@ const Creation = () => {
               <option value={PlaceEnum.PARK}>Park</option>
             </select>
             {errors.type && (
-              <p className="text-red-500 text-sm">{errors.type.message}</p>
+              <p className="text-red-500 text-sm">*{errors.type.message}</p>
             )}
           </div>
 
@@ -158,16 +161,29 @@ const Creation = () => {
               placeholder="123 Main St, City, Country"
             />
             {errors.address && (
-              <p className="text-red-500 text-sm">{errors.address.message}</p>
+              <p className="text-red-500 text-sm">*{errors.address.message}</p>
             )}
           </div>
           <div className="flex gap-4">
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition"
+              className={`w-full py-2 font-semibold rounded-lg shadow transition flex items-center justify-center ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 text-white"
+              }`}
             >
-              {loading ? "Creating..." : "Create Place"}
+              {loading ? (
+                <Spinner
+                  size={20}
+                  color="#ffffff"
+                  fullHeight={false}
+                  className="h-auto"
+                />
+              ) : (
+                "Create Place"
+              )}
             </button>
 
             <button
@@ -189,4 +205,4 @@ const Creation = () => {
   );
 };
 
-export default Creation;
+export default CreatePlace;

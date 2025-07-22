@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Creation from "./pages/Creation";
 import Places from "./pages/Places";
 import Layout from "./components/Layout";
 import WeatherData from "./pages/WeatherData";
+import CreatePlace from "./pages/CreatePlace";
 
 const AppRoutes = (): JSX.Element => {
   const routes = createBrowserRouter([
@@ -10,7 +10,7 @@ const AppRoutes = (): JSX.Element => {
       path: "/",
       element: <Layout />,
       children: [
-        { path: "", element: <Creation /> },
+        { path: "", element: <CreatePlace /> },
         { path: "places", element: <Places /> },
         { path: "weatherData", element: <WeatherData /> },
       ],
