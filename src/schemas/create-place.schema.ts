@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PlaceEnum } from "../types/places.types";
+import { PlaceEnum } from "../constants/placesConstants";
 
 export const placeSchema = z.object({
   name: z

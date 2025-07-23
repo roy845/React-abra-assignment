@@ -4,18 +4,27 @@ interface HeaderProps {
   title: string;
 }
 
-const Header = ({ title }: HeaderProps) => {
+type NavLink = {
+  label: string;
+  to: string;
+};
+
+const navLinks: NavLink[] = [
+  { label: "All Places", to: "/places" },
+  { label: "Create Place +", to: "/" },
+];
+
+const Header = ({ title }: HeaderProps): JSX.Element | null => {
   return (
     <header className="w-full px-8 py-4 bg-blue-600 text-white text-2xl font-bold shadow-md flex items-center justify-center gap-4 transition cursor-pointer">
       {title}
 
       <nav className="flex gap-4 text-base font-normal">
-        <Link to="/places" className="underline hover:text-yellow-200">
-          All Places
-        </Link>
-        <Link to="/" className="underline hover:text-yellow-200">
-          Create Place +
-        </Link>
+        {navLinks.map(({ label, to }) => (
+          <Link key={to} to={to} className="underline hover:text-yellow-200">
+            {label}
+          </Link>
+        ))}
       </nav>
     </header>
   );

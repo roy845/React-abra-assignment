@@ -12,7 +12,7 @@ const Spinner = ({
   color = "#0ea5e9",
   fullHeight = true,
   className = "",
-}: SpinnerProps) => {
+}: SpinnerProps): JSX.Element => {
   return (
     <div
       className={`flex justify-center items-center ${

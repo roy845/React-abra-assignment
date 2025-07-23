@@ -2,13 +2,7 @@ export type PlaceType = "restaurant" | "hotel" | "park";
 
 export type PlaceFilterType = "all" | PlaceType;
 
-export enum PlaceEnum {
-  RESTAURANT = "restaurant",
-  HOTEL = "hotel",
-  PARK = "park",
-}
-
-export type latLng = {
+export type LatLng = {
   lat: number;
   lng: number;
 };
@@ -27,9 +21,3 @@ export type PlacesState = {
   places: Place[];
   selectedPlace: Place;
 };
-
-export const placeTypes: [string, string, string] = [
-  PlaceEnum.RESTAURANT,
-  PlaceEnum.HOTEL,
-  PlaceEnum.PARK,
-];

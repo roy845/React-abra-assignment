@@ -25,7 +25,7 @@ ChartJS.register(
   Legend
 );
 
-const WeatherData = () => {
+const WeatherData = (): JSX.Element | null => {
   const selectedPlace: Place = useSelector(
     (state: RootState) => state.places.selectedPlace
   );
@@ -36,6 +36,8 @@ const WeatherData = () => {
     isError,
     error,
   } = useWeatherData(selectedPlace);
+
+  const pageTitle: string = `Weather Data - ${selectedPlace.name}`;
 
   if (!selectedPlace)
     return (
@@ -100,8 +102,11 @@ const WeatherData = () => {
   return (
     <>
       <Helmet>
-        <title>Weather Data - {selectedPlace.name}</title>
+        <title>{pageTitle}</title>
       </Helmet>
+      <h2 className="text-3xl font-bold text-center text-blue-700 mb-5 mt-5">
+        {pageTitle}
+      </h2>
       <Line data={chartData} options={chartOptions} height={200} />
     </>
   );

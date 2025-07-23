@@ -1,16 +1,14 @@
-import React from "react";
-
 interface ConfirmResetModalProps {
   isOpen: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
-const ConfirmResetModal: React.FC<ConfirmResetModalProps> = ({
+const ConfirmResetModal = ({
   isOpen,
   onConfirm,
   onCancel,
-}) => {
+}: ConfirmResetModalProps): JSX.Element | null => {
   if (!isOpen) return null;
 
   return (

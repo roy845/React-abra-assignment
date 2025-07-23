@@ -3,7 +3,7 @@ import { Place } from "../types/places.types";
 export class PlaceUtils {
   static validateNewPlace(place: Place, existingPlaces: Place[]): void {
     const existsByNameAndAddress: boolean = existingPlaces.some(
-      (p: Place) =>
+      (p: Place): boolean =>
         p.name.toLowerCase().trim() === place.name.toLowerCase().trim() &&
         p.address.toLowerCase().trim() === place.address.toLowerCase().trim()
     );
@@ -13,7 +13,7 @@ export class PlaceUtils {
     }
 
     const existsByCoordinates: boolean = existingPlaces.some(
-      (p: Place) => p.lat === place.lat && p.lng === place.lng
+      (p: Place): boolean => p.lat === place.lat && p.lng === place.lng
     );
 
     if (existsByCoordinates) {

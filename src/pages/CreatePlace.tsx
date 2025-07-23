@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { Place, PlaceEnum } from "../types/places.types";
+import { Place } from "../types/places.types";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addPlace } from "../features/placesSlice";
 import { PlaceFormData, placeSchema } from "../schemas/create-place.schema";
@@ -13,8 +13,9 @@ import { PlaceUtils } from "../utils/placeUtils";
 import ConfirmResetModal from "../components/ConfirmResetModal";
 import { Helmet } from "react-helmet-async";
 import Spinner from "../components/Spinner";
+import { PlaceEnum, placeTypes } from "../constants/placesConstants";
 
-const CreatePlace = () => {
+const CreatePlace = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showResetModal, setShowResetModal] = useState<boolean>(false);
 
@@ -23,6 +24,8 @@ const CreatePlace = () => {
   const places: Place[] = useAppSelector(
     (state: RootState) => state.places.places
   );
+
+  const pageTitle: string = "Create Place";
 
   const {
     register,
@@ -80,16 +83,16 @@ const CreatePlace = () => {
   return (
     <>
       <Helmet>
-        <title>Create Place</title>
+        <title>{pageTitle}</title>
       </Helmet>
 
-      <div className="h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen pt-8 flex items-center justify-center bg-gray-100">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="p-8 rounded-2xl shadow-xl w-full max-w-sm space-y-6 bg-white"
         >
           <h2 className="text-3xl font-bold text-center text-blue-700">
-            Create place
+            {pageTitle}
           </h2>
 
           <div>
@@ -140,11 +143,13 @@ const CreatePlace = () => {
             <label className="block mb-1 text-gray-700 font-medium">Type</label>
             <select
               {...register("type")}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-white text-gray-900"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-white text-gray-900 cursor-pointer"
             >
-              <option value={PlaceEnum.RESTAURANT}>Restaurant</option>
-              <option value={PlaceEnum.HOTEL}>Hotel</option>
-              <option value={PlaceEnum.PARK}>Park</option>
+              {placeTypes.map((type: PlaceEnum) => (
+                <option key={type} value={type}>
+                  {type[0].toLocaleUpperCase() + type.slice(1).toLowerCase()}
+                </option>
+              ))}
             </select>
             {errors.type && (
               <p className="text-red-500 text-sm">*{errors.type.message}</p>
