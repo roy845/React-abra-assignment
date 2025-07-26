@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,8 @@ const CreatePlace = (): JSX.Element => {
   const places: Place[] = useAppSelector(
     (state: RootState) => state.places.places
   );
+  const timeoutRef: React.MutableRefObject<NodeJS.Timeout | null> =
+    useRef<NodeJS.Timeout | null>(null);
 
   const pageTitle: string = "Create Place";
 
@@ -50,7 +52,7 @@ const CreatePlace = (): JSX.Element => {
 
       PlaceUtils.validateNewPlace(newPlaceWithIdAndCreationDate, places);
 
-      setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         setLoading(false);
         dispatch(addPlace(newPlaceWithIdAndCreationDate));
         toast.success("Place created successfully!");
@@ -80,6 +82,14 @@ const CreatePlace = (): JSX.Element => {
     setShowResetModal(false);
   };
 
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -101,6 +111,7 @@ const CreatePlace = (): JSX.Element => {
               {...register("name")}
               className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Place Name"
+              disabled={loading}
             />
             {errors.name && (
               <p className="text-red-500 text-sm">*{errors.name.message}</p>
@@ -117,6 +128,7 @@ const CreatePlace = (): JSX.Element => {
               {...register("lat", { valueAsNumber: true })}
               className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="e.g. 32.0853"
+              disabled={loading}
             />
             {errors.lat && (
               <p className="text-red-500 text-sm">*{errors.lat.message}</p>
@@ -133,6 +145,7 @@ const CreatePlace = (): JSX.Element => {
               {...register("lng", { valueAsNumber: true })}
               className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="e.g. 34.7818"
+              disabled={loading}
             />
             {errors.lng && (
               <p className="text-red-500 text-sm">*{errors.lng.message}</p>
@@ -143,11 +156,12 @@ const CreatePlace = (): JSX.Element => {
             <label className="block mb-1 text-gray-700 font-medium">Type</label>
             <select
               {...register("type")}
+              disabled={loading}
               className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-white text-gray-900 cursor-pointer"
             >
               {placeTypes.map((type: PlaceEnum) => (
                 <option key={type} value={type}>
-                  {type[0].toLocaleUpperCase() + type.slice(1).toLowerCase()}
+                  {PlaceUtils.formatEnum(type)}
                 </option>
               ))}
             </select>
@@ -162,6 +176,7 @@ const CreatePlace = (): JSX.Element => {
             </label>
             <input
               {...register("address")}
+              disabled={loading}
               className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="123 Main St, City, Country"
             />
@@ -194,7 +209,10 @@ const CreatePlace = (): JSX.Element => {
             <button
               type="button"
               onClick={handleResetForm}
-              className="w-full py-2 bg-red-600 text-white font-semibold rounded-lg shadow hover:bg-red-700 transition"
+              className={`w-full py-2 bg-red-600 text-white font-semibold rounded-lg shadow hover:bg-red-700 transition ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
             >
               Reset
             </button>

@@ -1,34 +1,27 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { setSelectedPlace } from "../features/placesSlice";
-import { RootState } from "../app/store";
+import { useAppSelector } from "../app/hooks";
 import { Helmet } from "react-helmet-async";
 import PlacesList from "../components/PlacesList";
 import PlacesMap from "../components/PlacesMap";
-import { PlacesState } from "../types/places.types";
+import { selectPlaces, selectSelectedPlace } from "../features/placesSelectors";
+import { Place } from "../types/places.types";
+import { useAutoSelectFirstPlace } from "../hooks/useAutoSelectFirstPlace";
 
 const Places = (): JSX.Element => {
-  const { places, selectedPlace } = useAppSelector(
-    (state: RootState): PlacesState => state.places
-  );
-  const dispatch = useAppDispatch();
+  const places: Place[] = useAppSelector(selectPlaces);
+  const selectedPlace: Place = useAppSelector(selectSelectedPlace);
 
   const pageTitle: string = "All Places";
 
-  useEffect(() => {
-    if (!selectedPlace && places.length > 0) {
-      dispatch(setSelectedPlace(places[0]));
-    }
-  }, [places, selectedPlace, dispatch]);
+  useAutoSelectFirstPlace(places, selectedPlace);
 
   return (
     <>
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
-      <div style={{ display: "flex", height: "500px" }}>
+      <div className="flex flex-col md:flex-row h-[calc(100vh-4rem)]">
         <PlacesList />
-        <div style={{ flex: 2 }}>
+        <div className="flex-1">
           <PlacesMap places={places} selectedPlace={selectedPlace} />
         </div>
       </div>

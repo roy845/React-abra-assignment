@@ -9,12 +9,12 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { RootState } from "../app/store";
-import { WeatherListItem } from "../types/weatherData.types";
 import { Helmet } from "react-helmet-async";
 import { useWeatherData } from "../queries/weatherQueries";
 import { Place } from "../types/places.types";
 import Spinner from "../components/Spinner";
+import { ChartUtils, weatherChartOptions } from "../utils/chartUtils";
+import { selectSelectedPlace } from "../features/placesSelectors";
 
 ChartJS.register(
   LineElement,
@@ -26,9 +26,7 @@ ChartJS.register(
 );
 
 const WeatherData = (): JSX.Element | null => {
-  const selectedPlace: Place = useSelector(
-    (state: RootState) => state.places.selectedPlace
-  );
+  const selectedPlace: Place = useSelector(selectSelectedPlace);
 
   const {
     data: weatherData,
@@ -37,14 +35,16 @@ const WeatherData = (): JSX.Element | null => {
     error,
   } = useWeatherData(selectedPlace);
 
-  const pageTitle: string = `Weather Data - ${selectedPlace.name}`;
-
   if (!selectedPlace)
     return (
       <div className="text-center text-red-500">
         Select a place to see weather data.
       </div>
     );
+
+  const pageTitle = selectedPlace
+    ? `Weather Data - ${selectedPlace.name}`
+    : "Weather Data";
 
   if (isLoading) return <Spinner />;
 
@@ -55,49 +55,14 @@ const WeatherData = (): JSX.Element | null => {
       </div>
     );
 
-  if (!weatherData || !weatherData.list) return null;
+  if (!weatherData || !weatherData.list || !weatherData.list.length)
+    return (
+      <div className="text-center text-gray-500 mt-10">
+        No weather data available for this place.
+      </div>
+    );
 
-  const chartData = {
-    labels: weatherData.list.map((item: WeatherListItem) =>
-      new Date(item.dt * 1000).toLocaleString()
-    ),
-    datasets: [
-      {
-        label: "Temperature (°C)",
-        data: weatherData.list.map((item: WeatherListItem) => item.main.temp),
-        borderColor: "rgba(75,192,192,1)",
-        fill: false,
-        yAxisID: "y-temp",
-      },
-      {
-        label: "Pressure (hPa)",
-        data: weatherData.list.map(
-          (item: WeatherListItem) => item.main.pressure
-        ),
-        borderColor: "rgba(255,99,132,1)",
-        fill: false,
-        yAxisID: "y-pressure",
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    interaction: { mode: "index" as const, intersect: false },
-    scales: {
-      "y-temp": {
-        type: "linear" as const,
-        position: "left" as const,
-        title: { display: true, text: "Temperature (°C)" },
-      },
-      "y-pressure": {
-        type: "linear" as const,
-        position: "right" as const,
-        title: { display: true, text: "Pressure (hPa)" },
-        grid: { drawOnChartArea: false },
-      },
-    },
-  };
+  const chartData = ChartUtils.buildWeatherChartData(weatherData.list);
 
   return (
     <>
@@ -107,7 +72,18 @@ const WeatherData = (): JSX.Element | null => {
       <h2 className="text-3xl font-bold text-center text-blue-700 mb-5 mt-5">
         {pageTitle}
       </h2>
-      <Line data={chartData} options={chartOptions} height={200} />
+      <div className="w-full max-w-4xl mx-auto px-4">
+        <div className="relative h-[250px] sm:h-[350px] md:h-[400px]">
+          <Line
+            data={chartData}
+            options={{
+              ...weatherChartOptions,
+              maintainAspectRatio: false,
+              responsive: true,
+            }}
+          />
+        </div>
+      </div>
     </>
   );
 };

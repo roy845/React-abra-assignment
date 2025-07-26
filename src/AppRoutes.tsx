@@ -3,6 +3,7 @@ import Places from "./pages/Places";
 import Layout from "./components/Layout";
 import WeatherData from "./pages/WeatherData";
 import CreatePlace from "./pages/CreatePlace";
+import NotFound from "./pages/NotFound";
 
 const AppRoutes = (): JSX.Element => {
   const routes = createBrowserRouter([
@@ -10,10 +11,14 @@ const AppRoutes = (): JSX.Element => {
       path: "/",
       element: <Layout />,
       children: [
-        { path: "", element: <CreatePlace /> },
+        { index: true, path: "", element: <CreatePlace /> },
         { path: "places", element: <Places /> },
         { path: "weatherData", element: <WeatherData /> },
       ],
+    },
+    {
+      path: "*",
+      element: <NotFound />,
     },
   ]);
   return <RouterProvider router={routes} />;

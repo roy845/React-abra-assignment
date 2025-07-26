@@ -42,32 +42,37 @@ const PlacesMap = ({ places, selectedPlace }: PlacesMapProps): JSX.Element => {
   }
 
   return (
-    <MapContainer
-      center={[+selectedPlace.lat, +selectedPlace.lng]}
-      zoom={13}
-      style={{ height: "100%", width: "100%" }}
-      zoomControl={false}
-    >
-      <ZoomControl position="topright" />
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {places.map((place: Place) =>
-        place.lat !== undefined &&
-        place.lng !== undefined &&
-        !isNaN(+place.lat) &&
-        !isNaN(+place.lng) ? (
-          <Marker key={place.id} position={[+place.lat, +place.lng]}>
-            <Popup>
-              <strong>{place.name}</strong>
-              <br />
-              <span style={{ color: "#888", fontSize: "0.9em" }}>
-                {new Date(place.createdAt).toLocaleString()}
-              </span>
-            </Popup>
-          </Marker>
-        ) : null
-      )}
-      <CenterMap lat={+selectedPlace.lat} lng={+selectedPlace.lng} />
-    </MapContainer>
+    <div className="w-full h-full min-h-[300px] bg-gray-100 rounded-lg overflow-hidden shadow-md">
+      <MapContainer
+        center={[+selectedPlace.lat, +selectedPlace.lng]}
+        zoom={13}
+        className="w-full h-full min-h-[300px]"
+        zoomControl={false}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <ZoomControl position="topright" />
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {places.map(
+          (place: Place) =>
+            place.lat !== undefined &&
+            place.lng !== undefined &&
+            !isNaN(+place.lat) &&
+            !isNaN(+place.lng) && (
+              <Marker key={place.id} position={[+place.lat, +place.lng]}>
+                <Popup>
+                  <div className="flex flex-col">
+                    <strong className="text-blue-700">{place.name}</strong>
+                    <span className="text-gray-400 text-sm mt-1">
+                      {new Date(place.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+                </Popup>
+              </Marker>
+            )
+        )}
+        <CenterMap lat={+selectedPlace.lat} lng={+selectedPlace.lng} />
+      </MapContainer>
+    </div>
   );
 };
 

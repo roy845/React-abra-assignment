@@ -31,20 +31,22 @@ const PlacesList = (): JSX.Element => {
   );
 
   return (
-    <div style={{ flex: 1, overflowY: "auto", borderRight: "1px solid #ccc" }}>
-      <h3 className="text-center text-2xl text-blue-500">Places</h3>
-      <div className="mb-[8px]">
+    <div className="flex-1 overflow-y-auto border-r border-gray-300 bg-white h-full min-h-0">
+      <h3 className="text-center text-2xl font-bold text-blue-600 mt-6 mb-2">
+        Places
+      </h3>
+      <div className="mb-4 px-4">
         <CustomSelect
           label="Filter by type:"
           options={placeTypeOptions}
           value={filterType}
           onChange={setFilterType}
-          className="border border-black cursor-pointer"
+          className="border border-gray-400 rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-400 focus:outline-none cursor-pointer w-full"
         />
       </div>
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <ul className="list-none p-0 m-0">
         {sortedPlaces.length === 0 ? (
-          <li style={{ padding: "8px", color: "#888", textAlign: "center" }}>
+          <li className="py-6 px-2 text-gray-400 text-center select-none">
             No places found.
           </li>
         ) : (

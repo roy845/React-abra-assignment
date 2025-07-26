@@ -26,21 +26,25 @@ const Place = ({ place, isSelected }: PlaceProps): JSX.Element => {
 
   return (
     <li
-      style={{
-        padding: "8px",
-        cursor: "pointer",
-        background: isSelected ? "#e0e0e0" : "transparent",
-      }}
+      className={`p-4 cursor-pointer rounded-lg transition-colors duration-200
+        ${isSelected ? "bg-gray-200" : "hover:bg-gray-50"}
+        flex flex-col gap-2 items-start`}
       onClick={handleClick}
+      tabIndex={0}
     >
-      {place.name} <br />
-      <small>{new Date(place.createdAt).toLocaleString()}</small>
+      <span className="font-medium text-lg text-gray-800">{place.name}</span>
+      <small className="text-gray-500">
+        {new Date(place.createdAt).toLocaleString()}
+      </small>
       <button
-        className="bg-transparent border-none cursor-pointer text-2xl ml-2 mt-5"
+        type="button"
+        className="self-end mt-2 text-blue-600 hover:text-blue-800 text-xl transition"
         title="Show weather data"
         onClick={handleNavigateToWeatherData}
+        tabIndex={-1}
+        aria-label={`Show weather data for ${place.name}`}
       >
-        →
+        <span aria-hidden="true">→</span>
       </button>
     </li>
   );
