@@ -17,7 +17,11 @@ export type Place = {
   createdAt: string;
 };
 
+export type PlaceSortType = "createdAtDesc";
+
 export type PlacesState = {
   places: Place[];
   selectedPlace: Place;
+  filterType: PlaceFilterType;
+  sortBy: PlaceSortType;
 };
