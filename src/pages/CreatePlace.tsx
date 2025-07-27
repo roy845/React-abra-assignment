@@ -14,6 +14,7 @@ import ConfirmResetModal from "../components/ConfirmResetModal";
 import { Helmet } from "react-helmet-async";
 import Spinner from "../components/Spinner";
 import { PlaceEnum, placeTypes } from "../constants/placesConstants";
+import { selectPlaces } from "../features/placesSelectors";
 
 const CreatePlace = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,9 +22,7 @@ const CreatePlace = (): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
-  const places: Place[] = useAppSelector(
-    (state: RootState) => state.places.places
-  );
+  const places: Place[] = useAppSelector(selectPlaces);
   const timeoutRef: React.MutableRefObject<NodeJS.Timeout | null> =
     useRef<NodeJS.Timeout | null>(null);
 
