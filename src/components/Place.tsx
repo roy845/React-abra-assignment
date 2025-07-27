@@ -13,6 +13,7 @@ const Place = ({ place, isSelected }: PlaceProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
   const { WEATHER_DATA } = ROUTES;
+
   const handleClick = (): void => {
     dispatch(setSelectedPlace(place));
   };
@@ -34,6 +35,7 @@ const Place = ({ place, isSelected }: PlaceProps): JSX.Element => {
       tabIndex={0}
     >
       <span className="font-medium text-lg text-gray-800">{place.name}</span>
+      <span className="text-gray-600 text-sm">{place.address}</span>
       <small className="text-gray-500">
         {new Date(place.createdAt).toLocaleString()}
       </small>
