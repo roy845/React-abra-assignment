@@ -1,6 +1,6 @@
 import { Place } from "../types/places.types";
 import PlaceComponent from "./Place";
-import PlacesNotFound from "./PlacesNotFound";
+import EmptyStateMessage from "./EmptyStateMessage";
 
 interface PlacesListProps {
   places: Place[];
@@ -10,20 +10,22 @@ interface PlacesListProps {
 const PlacesList = ({
   places,
   selectedPlace,
-}: PlacesListProps): JSX.Element => (
-  <ul className="list-none p-0 m-0">
-    {places.length === 0 ? (
-      <PlacesNotFound />
-    ) : (
-      places.map((place) => (
+}: PlacesListProps): JSX.Element => {
+  if (places.length === 0) {
+    return <EmptyStateMessage message="No places found." />;
+  }
+
+  return (
+    <ul className="list-none p-0 m-0">
+      {places.map((place) => (
         <PlaceComponent
           key={place.id}
           place={place}
           isSelected={selectedPlace?.id === place.id}
         />
-      ))
-    )}
-  </ul>
-);
+      ))}
+    </ul>
+  );
+};
 
 export default PlacesList;

@@ -8,13 +8,14 @@ import { Place } from "../types/places.types";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addPlace } from "../features/placesSlice";
 import { PlaceFormData, placeSchema } from "../schemas/create-place.schema";
-import { RootState } from "../app/store";
 import { PlaceUtils } from "../utils/placeUtils";
 import ConfirmResetModal from "../components/ConfirmResetModal";
 import { Helmet } from "react-helmet-async";
 import Spinner from "../components/Spinner";
 import { PlaceEnum, placeTypes } from "../constants/placesConstants";
 import { selectPlaces } from "../features/placesSelectors";
+import { PAGE_TITLES } from "../constants/pageTitles";
+import { ROUTES } from "../constants/routesConstants";
 
 const CreatePlace = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,7 +27,8 @@ const CreatePlace = (): JSX.Element => {
   const timeoutRef: React.MutableRefObject<NodeJS.Timeout | null> =
     useRef<NodeJS.Timeout | null>(null);
 
-  const pageTitle: string = "Create Place";
+  const { CREATE_PLACE_PAGE_TITLE } = PAGE_TITLES;
+  const { PLACES } = ROUTES;
 
   const {
     register,
@@ -55,7 +57,7 @@ const CreatePlace = (): JSX.Element => {
         setLoading(false);
         dispatch(addPlace(newPlaceWithIdAndCreationDate));
         toast.success("Place created successfully!");
-        navigate("/places");
+        navigate("/" + PLACES);
       }, 2000);
     } catch (error: any) {
       if (error instanceof Error) {
@@ -92,7 +94,7 @@ const CreatePlace = (): JSX.Element => {
   return (
     <>
       <Helmet>
-        <title>{pageTitle}</title>
+        <title>{CREATE_PLACE_PAGE_TITLE}</title>
       </Helmet>
 
       <div className="min-h-screen pt-8 flex items-center justify-center bg-gray-100">
@@ -101,7 +103,7 @@ const CreatePlace = (): JSX.Element => {
           className="p-8 rounded-2xl shadow-xl w-full max-w-sm space-y-6 bg-white"
         >
           <h2 className="text-3xl font-bold text-center text-blue-700">
-            {pageTitle}
+            {CREATE_PLACE_PAGE_TITLE}
           </h2>
 
           <div>

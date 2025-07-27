@@ -12,6 +12,7 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { LatLng, Place } from "../types/places.types";
+import EmptyStateMessage from "./EmptyStateMessage";
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
@@ -38,13 +39,7 @@ const PlacesMap = ({ places, selectedPlace }: PlacesMapProps): JSX.Element => {
     isNaN(+selectedPlace.lat) ||
     isNaN(+selectedPlace.lng)
   ) {
-    return (
-      <div className="flex items-center justify-center h-full w-full">
-        <div className="text-center text-lg text-gray-500">
-          Select a place to view the map.
-        </div>
-      </div>
-    );
+    return <EmptyStateMessage message="Select a place to view the map." />;
   }
 
   return (

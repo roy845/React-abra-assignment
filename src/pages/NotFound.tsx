@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { PAGE_TITLES } from "../constants/pageTitles";
 
 const NotFound = (): JSX.Element => {
-  const pageTitle: string = "404 - Not Found";
-
+  const { NOT_FOUND } = PAGE_TITLES;
   return (
     <>
       <Helmet>
-        <title>{pageTitle}</title>
+        <title>{NOT_FOUND}</title>
       </Helmet>
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 via-white to-pink-100 px-4">
         <div className="bg-white p-8 rounded-2xl shadow-lg flex flex-col items-center max-w-md w-full">

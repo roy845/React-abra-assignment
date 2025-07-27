@@ -2,6 +2,7 @@ import { Place as PlaceType } from "../types/places.types";
 import { useAppDispatch } from "../app/hooks";
 import { setSelectedPlace } from "../features/placesSlice";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { ROUTES } from "../constants/routesConstants";
 
 interface PlaceProps {
   place: PlaceType;
@@ -11,7 +12,7 @@ interface PlaceProps {
 const Place = ({ place, isSelected }: PlaceProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
-
+  const { WEATHER_DATA } = ROUTES;
   const handleClick = (): void => {
     dispatch(setSelectedPlace(place));
   };
@@ -21,7 +22,7 @@ const Place = ({ place, isSelected }: PlaceProps): JSX.Element => {
   ): void => {
     e.stopPropagation();
     dispatch(setSelectedPlace(place));
-    navigate("/weatherData");
+    navigate("/" + WEATHER_DATA);
   };
 
   return (

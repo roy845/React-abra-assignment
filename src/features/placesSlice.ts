@@ -6,9 +6,10 @@ import {
   PlacesState,
 } from "../types/places.types";
 import { RootState } from "../app/store";
+import { generateMockPlaces } from "../mock/mockPlaces";
 
 const initialState: PlacesState = {
-  places: [] as Place[],
+  places: generateMockPlaces() as Place[],
   selectedPlace: {} as Place,
   filterType: "all" as PlaceFilterType,
   sortBy: "createdAtDesc" as PlaceSortType,
@@ -18,16 +19,16 @@ export const placesSlice = createSlice({
   name: "places",
   initialState,
   reducers: {
-    addPlace(state, action: PayloadAction<Place>) {
+    addPlace(state, action: PayloadAction<Place>): void {
       state.places.push(action.payload);
     },
-    setSelectedPlace(state, action: PayloadAction<Place>) {
+    setSelectedPlace(state, action: PayloadAction<Place>): void {
       state.selectedPlace = action.payload;
     },
-    setFilterType(state, action: PayloadAction<PlaceFilterType>) {
+    setFilterType(state, action: PayloadAction<PlaceFilterType>): void {
       state.filterType = action.payload;
     },
-    setSortBy(state, action: PayloadAction<PlaceSortType>) {
+    setSortBy(state, action: PayloadAction<PlaceSortType>): void {
       state.sortBy = action.payload;
     },
   },

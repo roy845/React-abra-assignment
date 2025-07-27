@@ -1,9 +1,11 @@
 import axios from "axios";
 import { WeatherDataResponse } from "../types/weatherData.types";
 import { Place } from "../types/places.types";
+import { URLS } from "./urls";
+import { API_KEYS } from "./apiKeys";
 
-const OPENWEATHER_API_KEY = "45017ea56ecca68d10012b50cec53ea5";
-const weatherUrlApi = "https://api.openweathermap.org/data/2.5/forecast";
+const { OPENWEATHER_API_KEY } = API_KEYS;
+const { weatherUrlApi } = URLS;
 
 export const fetchWeatherData = async (
   place: Place

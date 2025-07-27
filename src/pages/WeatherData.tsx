@@ -15,6 +15,7 @@ import { Place } from "../types/places.types";
 import Spinner from "../components/Spinner";
 import { ChartUtils, weatherChartOptions } from "../utils/chartUtils";
 import { selectSelectedPlace } from "../features/placesSelectors";
+import { PAGE_TITLES } from "../constants/pageTitles";
 
 ChartJS.register(
   LineElement,
@@ -42,9 +43,9 @@ const WeatherData = (): JSX.Element | null => {
       </div>
     );
 
-  const pageTitle = selectedPlace
-    ? `Weather Data - ${selectedPlace.name}`
-    : "Weather Data";
+  const { WEATHER_DATA: weatherDataPageTitle } = PAGE_TITLES;
+
+  const pageTitle = weatherDataPageTitle(selectedPlace);
 
   if (isLoading) return <Spinner />;
 
