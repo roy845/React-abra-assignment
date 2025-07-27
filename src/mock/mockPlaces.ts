@@ -1,4 +1,3 @@
-// src/mock/mockPlaces.ts
 import { Place } from "../types/places.types";
 
 export const generateMockPlaces = (): Place[] => [
