@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import placesReducer from "../features/placesSlice";
+import modalReducer from "../features/modalSlice";
 
 export const store = configureStore({
   reducer: {
     places: placesReducer,
+    modal: modalReducer,
   },
 });
 

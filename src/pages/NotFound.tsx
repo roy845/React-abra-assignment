@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { PAGE_TITLES } from "../constants/pageTitles";
+import { ROUTES } from "../constants/routesConstants";
 
 const NotFound = (): JSX.Element => {
   const { NOT_FOUND } = PAGE_TITLES;
+  const { HOME } = ROUTES;
   return (
     <>
       <Helmet>
@@ -22,7 +24,7 @@ const NotFound = (): JSX.Element => {
             moved.
           </p>
           <Link
-            to="/"
+            to={HOME}
             className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold shadow hover:bg-blue-700 transition"
           >
             Go Home

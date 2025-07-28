@@ -9,13 +9,14 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addPlace } from "../features/placesSlice";
 import { PlaceFormData, placeSchema } from "../schemas/create-place.schema";
 import { PlaceUtils } from "../utils/placeUtils";
-import ConfirmResetModal from "../components/ConfirmResetModal";
+import ConfirmResetModal from "../components/modal/ConfirmResetModal";
 import { Helmet } from "react-helmet-async";
 import Spinner from "../components/Spinner";
 import { PlaceEnum, placeTypes } from "../constants/placesConstants";
 import { selectPlaces } from "../features/placesSelectors";
 import { PAGE_TITLES } from "../constants/pageTitles";
 import { ROUTES } from "../constants/routesConstants";
+import AppInfoModal from "../components/modal/AppInfoModal";
 
 const CreatePlace = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -96,6 +97,8 @@ const CreatePlace = (): JSX.Element => {
       <Helmet>
         <title>{CREATE_PLACE_PAGE_TITLE}</title>
       </Helmet>
+
+      <AppInfoModal />
 
       <div className="min-h-screen pt-8 flex items-center justify-center bg-gray-100">
         <form
