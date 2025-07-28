@@ -8,12 +8,15 @@ export const useWeatherData = (
 ): UseQueryResult<WeatherDataResponse, Error> =>
   useQuery({
     queryKey: ["weatherData", place?.lat, place?.lng],
-    queryFn: () => {
+    queryFn: async () => {
       if (!place) throw new Error("No place selected");
       try {
-        return WeatherService.fetchWeatherData(place.lat, place.lng);
-      } catch (error: any) {
-        throw error;
+        return await WeatherService.fetchWeatherData(place.lat, place.lng);
+      } catch (err: any) {
+        if (err.name === "ZodError") {
+          throw new Error("Invalid coordinates");
+        }
+        throw err;
       }
     },
     enabled: !!place,
