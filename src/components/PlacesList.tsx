@@ -17,7 +17,7 @@ const PlacesList = ({
 
   return (
     <ul className="list-none p-0 m-0">
-      {places.map((place) => (
+      {places.map((place: Place) => (
         <PlaceComponent
           key={place.id}
           place={place}

@@ -5,12 +5,12 @@ import { URLS } from "./urls";
 import { API_KEYS } from "./apiKeys";
 
 const { OPENWEATHER_API_KEY } = API_KEYS;
-const { weatherUrlApi } = URLS;
+const { WEATJER_URL_API } = URLS;
 
 export const fetchWeatherData = async (
   place: Place
 ): Promise<WeatherDataResponse> => {
-  const { data } = await axios.get<WeatherDataResponse>(weatherUrlApi, {
+  const { data } = await axios.get<WeatherDataResponse>(WEATJER_URL_API, {
     params: {
       lat: place.lat,
       lon: place.lng,
