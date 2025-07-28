@@ -4,14 +4,14 @@ import { WeatherDataResponse } from "../types/weatherData.types";
 import { HttpClient } from "../utils/httpClient";
 
 const { OPENWEATHER_API_KEY } = API_KEYS;
-const { WEATJER_URL_API } = URLS;
+const { WEATHER_URL_API } = URLS;
 
 export class WeatherDAL {
   static fetchWeatherData = async (
     lat: number,
     lng: number
   ): Promise<WeatherDataResponse> => {
-    return HttpClient.get<WeatherDataResponse>(WEATJER_URL_API, {
+    return HttpClient.get<WeatherDataResponse>(WEATHER_URL_API, {
       lat,
       lon: lng,
       appid: OPENWEATHER_API_KEY,
