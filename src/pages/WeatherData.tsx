@@ -16,6 +16,9 @@ import Spinner from "../components/Spinner";
 import { ChartUtils, weatherChartOptions } from "../utils/chartUtils";
 import { selectSelectedPlace } from "../features/placesSelectors";
 import { PAGE_TITLES } from "../constants/pageTitles";
+import EmptyStateMessage from "../components/EmptyStateMessage";
+import ErrorMessage from "../components/ErrorMessage";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 ChartJS.register(
   LineElement,
@@ -28,7 +31,7 @@ ChartJS.register(
 
 const WeatherData = (): JSX.Element | null => {
   const selectedPlace: Place = useSelector(selectSelectedPlace);
-
+  const navigate: NavigateFunction = useNavigate();
   const {
     data: weatherData,
     isLoading,
@@ -37,11 +40,7 @@ const WeatherData = (): JSX.Element | null => {
   } = useWeatherData(selectedPlace);
 
   if (!selectedPlace)
-    return (
-      <div className="text-center text-red-500">
-        Select a place to see weather data.
-      </div>
-    );
+    return <EmptyStateMessage message="Select a place to see weather data." />;
 
   const { WEATHER_DATA: weatherDataPageTitle } = PAGE_TITLES;
 
@@ -51,16 +50,14 @@ const WeatherData = (): JSX.Element | null => {
 
   if (isError)
     return (
-      <div className="text-center text-red-500">
-        {(error as Error).message || "Failed to fetch weather data"}
-      </div>
+      <ErrorMessage
+        message={(error as Error).message || "Failed to fetch weather data"}
+      />
     );
 
   if (!weatherData || !weatherData.list || !weatherData.list.length)
     return (
-      <div className="text-center text-gray-500 mt-10">
-        No weather data available for this place.
-      </div>
+      <EmptyStateMessage message="No weather data available for this place." />
     );
 
   const chartData = ChartUtils.buildWeatherChartData(weatherData.list);
@@ -83,6 +80,14 @@ const WeatherData = (): JSX.Element | null => {
               responsive: true,
             }}
           />
+        </div>
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={() => navigate(-1)}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Back
+          </button>
         </div>
       </div>
     </>

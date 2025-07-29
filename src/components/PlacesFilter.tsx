@@ -8,6 +8,7 @@ import CustomSelect from "./CustomSelect";
 const PlacesFilter = (): JSX.Element => {
   const filterType: PlaceFilterType = useAppSelector(selectFilterType);
   const dispatch = useAppDispatch();
+
   return (
     <div className="mb-4 px-4">
       <CustomSelect
