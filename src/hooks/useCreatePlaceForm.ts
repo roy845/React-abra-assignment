@@ -12,7 +12,10 @@ import { PlaceFormData, placeSchema } from "../schemas/create-place.schema";
 import { PlaceUtils } from "../utils/placeUtils";
 import { ROUTES } from "../constants/routesConstants";
 import { RouteUtils } from "../utils/routeUtils";
-import { PlaceEnum } from "../constants/placesConstants";
+import {
+  PLACE_CREATION_TIMEOUT_MS,
+  PlaceEnum,
+} from "../constants/placesConstants";
 
 interface UseCreatePlaceForm {
   loading: boolean;
@@ -25,14 +28,15 @@ interface UseCreatePlaceForm {
 }
 
 export const useCreatePlaceForm = (): UseCreatePlaceForm => {
-  const [loading, setLoading] = useState(false);
-  const [showResetModal, setShowResetModal] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showResetModal, setShowResetModal] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
   const places: Place[] = useAppSelector(selectPlaces);
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef: React.MutableRefObject<NodeJS.Timeout | null> =
+    useRef<NodeJS.Timeout | null>(null);
 
   const formMethods = useForm<PlaceFormData>({
     resolver: zodResolver(placeSchema),
@@ -40,6 +44,8 @@ export const useCreatePlaceForm = (): UseCreatePlaceForm => {
   });
 
   const { reset } = formMethods;
+
+  const { PLACES } = ROUTES;
 
   const onSubmit = (data: PlaceFormData): void => {
     try {
@@ -55,9 +61,9 @@ export const useCreatePlaceForm = (): UseCreatePlaceForm => {
       timeoutRef.current = setTimeout(() => {
         setLoading(false);
         dispatch(addPlace(newPlace));
-        toast.success("Place created successfully!");
-        navigate(RouteUtils.buildRoute(ROUTES.PLACES));
-      }, 2000);
+        toast.success(`Place ${newPlace.name} created successfully!`);
+        navigate(RouteUtils.buildRoute(PLACES));
+      }, PLACE_CREATION_TIMEOUT_MS);
     } catch (error: any) {
       toast.error(
         error instanceof Error ? error.message : "Something went wrong."

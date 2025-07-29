@@ -3,13 +3,17 @@ import { PlaceFormData } from "../schemas/create-place.schema";
 import { PlaceEnum, placeTypes } from "../constants/placesConstants";
 import { PlaceUtils } from "../utils/placeUtils";
 
-interface Props {
+interface CreatePlaceFormFieldsProps {
   register: UseFormRegister<PlaceFormData>;
   errors: FieldErrors<PlaceFormData>;
   loading: boolean;
 }
 
-const CreatePlaceFormFields = ({ register, errors, loading }: Props) => (
+const CreatePlaceFormFields = ({
+  register,
+  errors,
+  loading,
+}: CreatePlaceFormFieldsProps) => (
   <>
     <div>
       <label className="block mb-1 text-gray-700 font-medium">Name</label>

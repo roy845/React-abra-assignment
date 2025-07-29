@@ -1,8 +1,9 @@
 import { z } from "zod";
+import { latSchema, lngSchema } from "./sharedSchemas.schemas";
 
 export const weatherQuerySchema = z.object({
-  lat: z.number().min(-90).max(90),
-  lng: z.number().min(-180).max(180),
+  lat: latSchema,
+  lng: lngSchema,
 });
 
 export type WeatherQueryParams = z.infer<typeof weatherQuerySchema>;

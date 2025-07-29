@@ -1,4 +1,4 @@
 export class RouteUtils {
   static buildRoute = (...parts: string[]): string =>
-    "/" + parts.map((p) => p.replace(/^\/+|\/+$/g, "")).join("/");
+    "/" + parts.map((p: string) => p.replace(/^\/+|\/+$/g, "")).join("/");
 }

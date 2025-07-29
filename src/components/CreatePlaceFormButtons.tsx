@@ -1,6 +1,6 @@
 import Spinner from "./Spinner";
 
-interface Props {
+interface CreatePlaceFormButtonsProps {
   loading: boolean;
   onResetClick: () => void;
 }
@@ -8,7 +8,7 @@ interface Props {
 const CreatePlaceFormButtons = ({
   loading,
   onResetClick,
-}: Props): JSX.Element => {
+}: CreatePlaceFormButtonsProps): JSX.Element => {
   return (
     <div className="flex gap-4">
       <button

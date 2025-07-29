@@ -1,6 +1,8 @@
 import { PlaceFilterType } from "../types/places.types";
 import { Option } from "../components/CustomSelect";
 
+export const PLACE_CREATION_TIMEOUT_MS: number = 2000;
+
 export enum PlaceEnum {
   RESTAURANT = "restaurant",
   HOTEL = "hotel",
