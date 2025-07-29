@@ -3,6 +3,7 @@ import { useAppDispatch } from "../app/hooks";
 import { setSelectedPlace } from "../features/placesSlice";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routesConstants";
+import { RouteUtils } from "../utils/routeUtils";
 
 interface PlaceProps {
   place: PlaceType;
@@ -23,7 +24,7 @@ const Place = ({ place, isSelected }: PlaceProps): JSX.Element => {
   ): void => {
     e.stopPropagation();
     dispatch(setSelectedPlace(place));
-    navigate("/" + WEATHER_DATA);
+    navigate(RouteUtils.buildRoute(WEATHER_DATA));
   };
 
   return (

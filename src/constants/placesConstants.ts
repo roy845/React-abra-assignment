@@ -15,7 +15,7 @@ export const placeTypes: readonly [PlaceEnum, PlaceEnum, PlaceEnum] = [
 
 export const placeTypeOptions: Option<PlaceFilterType>[] = [
   { label: "All", value: "all" as PlaceFilterType },
-  ...placeTypes.map((type) => ({
+  ...placeTypes.map((type: PlaceEnum) => ({
     label: type[0].toLocaleUpperCase() + type.slice(1),
     value: type as PlaceFilterType,
   })),
